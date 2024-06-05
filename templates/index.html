@@ -93,7 +93,32 @@
     </footer>
     <script>
         function predictPrice() {
-            const lotArea = document.getElementById('lotArea').value;
-            const yearBuilt = document.getElementById('yearBuilt').value;
-            const overallQual = document.getElementById('overallQual').value;
-            const totalBsmtSF
+    const data = {
+        lotArea: document.getElementById('lotArea').value,
+        yearBuilt: document.getElementById('yearBuilt').value,
+        overallQual: document.getElementById('overallQual').value,
+        totalBsmtSF: document.getElementById('totalBsmtSF').value,
+        firstFlrSF: document.getElementById('firstFlrSF').value,
+        grLivArea: document.getElementById('grLivArea').value,
+        fullBath: document.getElementById('fullBath').value,
+        bedroomAbvGr: document.getElementById('bedroomAbvGr').value,
+        kitchenQual: document.getElementById('kitchenQual').value,
+        garageCars: document.getElementById('garageCars').value,
+        garageArea: document.getElementById('garageArea').value
+    };
+
+    fetch('/predict', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+        document.getElementById('predictedPrice').innerText = `$${result.predicted_price.toFixed(2)}`;
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
