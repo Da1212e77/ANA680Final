@@ -15,8 +15,24 @@
             align-items: center;
             height: 100vh;
             margin: 0;
+            background-image: url('your-image.jpg'); /* Replace 'your-image.jpg' with the path to your image */
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.8); /* Adjust opacity here */
+            z-index: 1;
         }
         .container {
+            position: relative;
+            z-index: 2;
             background-color: #ffffff;
             border-radius: 8px;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
@@ -88,6 +104,7 @@
     </style>
 </head>
 <body>
+    <div class="overlay"></div>
     <div class="container">
         <header>
             <h1>Ames City, Iowa Home Price Predictor</h1>
