@@ -24,16 +24,20 @@ def predict():
         data['totRmsAbvGrd'] = int(data['totRmsAbvGrd'])
         data['fullBath'] = int(data['fullBath'])
         data['halfBath'] = int(data['halfBath'])
-        
+
         # Convert keys to match the expected format
-        data = {key.title().replace('_', ''): value for key, value in data.items()}
-        
+        formatted_data = {
+            'Neighborhood': data['neighborhood'],
+            'YearBuilt': data['yearBuilt'],
+            'LotArea': data['lotArea'],
+            'TotalRooms': data['totRmsAbvGrd'],
+            'GarageCars': data['garageCars'],
+            'FullBath': data['fullBath'],
+            'HalfBath': data['halfBath']
+        }
+
         # Convert input data to DataFrame
-        features = pd.DataFrame([data], columns=[
-            'Neighborhood', 'YearBuilt', 'LotArea', 'BldgType', 'CentralAir', 
-            'GarageCars', 'TotRmsAbvGrd', 'FullBath', 'HalfBath'
-        ])
-        
+        features = pd.DataFrame([formatted_data])
         app.logger.info(f"Features before processing: {features}")
 
         # Preprocess features

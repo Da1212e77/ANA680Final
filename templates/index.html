@@ -134,7 +134,7 @@
                     <input type="number" id="yearBuilt" min="1900" max="2021" step="1" value="1900">
                 </div>
                 <div class="input-group">
-                    <label for="totRmsAbvGrd">Total Rooms Above Ground <small>(Min: 0, Max: 15)</small></label>
+                    <label for="totRmsAbvGrd">Total Rooms <small>(Min: 0, Max: 15)</small></label>
                     <input type="number" id="totRmsAbvGrd" min="0" max="15" step="1" value="0">
                 </div>
                 <div class="input-group">
@@ -152,45 +152,4 @@
                 <button onclick="predictPrice()">Predict Price</button>
             </section>
             <section class="result">
-                <h2>Predicted House Price: <span id="predictedPrice">$0.00</span></h2>
-            </section>
-        </main>
-        <footer>
-            <p>&copy; 2024 House Price Prediction Project</p>
-        </footer>
-    </div>
-    <script>
-        function predictPrice() {
-            const data = {
-                neighborhood: document.getElementById('neighborhood').value,
-                lotArea: document.getElementById('lotArea').value,
-                yearBuilt: document.getElementById('yearBuilt').value,
-                totRmsAbvGrd: document.getElementById('totRmsAbvGrd').value,
-                garageCars: document.getElementById('garageCars').value,
-                fullBath: document.getElementById('fullBath').value,
-                halfBath: document.getElementById('halfBath').value,
-            };
-
-            fetch('/predict', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
-            .then(response => response.json())
-            .then(result => {
-                if (result.predicted_price !== undefined) {
-                    document.getElementById('predictedPrice').innerText = `$${result.predicted_price.toFixed(2)}`;
-                } else {
-                    document.getElementById('predictedPrice').innerText = `Error: ${result.error}`;
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                document.getElementById('predictedPrice').innerText = `Error: ${error}`;
-            });
-        }
-    </script>
-</body>
-</html>
+                <h2>Pred
