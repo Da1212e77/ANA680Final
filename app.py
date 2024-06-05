@@ -16,20 +16,24 @@ def home():
 def predict():
     data = request.json
     app.logger.info(f"Received data: {data}")
+
+    # Convert keys to PascalCase
+    data = {key.title().replace('_', ''): value for key, value in data.items()}
+
     try:
         # Convert input data to DataFrame and ensure correct types
         features = pd.DataFrame([data], columns=[
-            'neighborhood', 'lotArea', 'yearBuilt', 'bldgType', 'centralAir', 
-            'garageCars', 'totRmsAbvGrd', 'fullBath', 'halfBath'
+            'Neighborhood', 'LotArea', 'YearBuilt', 'BldgType', 'CentralAir', 
+            'GarageCars', 'TotRmsAbvGrd', 'FullBath', 'HalfBath'
         ])
         
         # Convert numerical columns to correct type
-        features['lotArea'] = features['lotArea'].astype(float)
-        features['yearBuilt'] = features['yearBuilt'].astype(int)
-        features['garageCars'] = features['garageCars'].astype(int)
-        features['totRmsAbvGrd'] = features['totRmsAbvGrd'].astype(int)
-        features['fullBath'] = features['fullBath'].astype(int)
-        features['halfBath'] = features['halfBath'].astype(int)
+        features['LotArea'] = features['LotArea'].astype(float)
+        features['YearBuilt'] = features['YearBuilt'].astype(int)
+        features['GarageCars'] = features['GarageCars'].astype(int)
+        features['TotRmsAbvGrd'] = features['TotRmsAbvGrd'].astype(int)
+        features['FullBath'] = features['FullBath'].astype(int)
+        features['HalfBath'] = features['HalfBath'].astype(int)
         
         # Preprocess features
         processed_features = preprocessor.transform(features)
