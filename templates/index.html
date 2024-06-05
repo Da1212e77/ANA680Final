@@ -5,13 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>House Price Prediction</title>
     <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
+            background-image: url('images/istockphoto-1145974302-612x612.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            opacity: 0.8;
+        }
+        .content {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3em;
+            color: white;
+            text-shadow: 2px 2px 4px #000000;
+            text-align: center;
         }
         .input-group {
             margin-bottom: 15px;
+            text-align: left;
+            display: inline-block;
+            width: 48%;
         }
         label {
             display: block;
@@ -29,11 +51,41 @@
 </head>
 <body>
     <header>
-        <h1>House Price Prediction</h1>
+        <h1>City of Ames, Iowa</h1>
     </header>
-    <main>
+    <main class="content">
         <section>
             <h2>Enter Details</h2>
+            <div class="input-group">
+                <label for="neighborhood">Neighborhood</label>
+                <select id="neighborhood">
+                    <option value="Blmngtn">Bloomington Heights</option>
+                    <option value="Blueste">Bluestem</option>
+                    <option value="BrDale">Briardale</option>
+                    <option value="BrkSide">Brookside</option>
+                    <option value="ClearCr">Clear Creek</option>
+                    <option value="CollgCr">College Creek</option>
+                    <option value="Crawfor">Crawford</option>
+                    <option value="Edwards">Edwards</option>
+                    <option value="Gilbert">Gilbert</option>
+                    <option value="IDOTRR">Iowa DOT and Rail Road</option>
+                    <option value="MeadowV">Meadow Village</option>
+                    <option value="Mitchel">Mitchell</option>
+                    <option value="Names">North Ames</option>
+                    <option value="NoRidge">Northridge</option>
+                    <option value="NPkVill">Northpark Villa</option>
+                    <option value="NridgHt">Northridge Heights</option>
+                    <option value="NWAmes">Northwest Ames</option>
+                    <option value="OldTown">Old Town</option>
+                    <option value="SWISU">South & West of Iowa State University</option>
+                    <option value="Sawyer">Sawyer</option>
+                    <option value="SawyerW">Sawyer West</option>
+                    <option value="Somerst">Somerset</option>
+                    <option value="StoneBr">Stone Brook</option>
+                    <option value="Timber">Timberland</option>
+                    <option value="Veenker">Veenker</option>
+                </select>
+            </div>
             <div class="input-group">
                 <label for="lotArea">Lot Area (sq ft) <small>(Min: 0, Max: 20000)</small></label>
                 <input type="number" id="lotArea" min="0" max="20000" step="100" value="5000">
@@ -43,35 +95,20 @@
                 <input type="number" id="yearBuilt" min="1900" max="2021" step="1" value="2000">
             </div>
             <div class="input-group">
-                <label for="overallQual">Overall Quality <small>(Min: 1, Max: 10)</small></label>
-                <input type="number" id="overallQual" min="1" max="10" step="1" value="5">
+                <label for="bldgType">Building Type</label>
+                <select id="bldgType">
+                    <option value="1Fam">Single-family Detached</option>
+                    <option value="2FmCon">Two-family Conversion</option>
+                    <option value="Duplx">Duplex</option>
+                    <option value="TwnhsE">Townhouse End Unit</option>
+                    <option value="TwnhsI">Townhouse Inside Unit</option>
+                </select>
             </div>
             <div class="input-group">
-                <label for="totalBsmtSF">Total Basement Area (sq ft) <small>(Min: 0, Max: 3000)</small></label>
-                <input type="number" id="totalBsmtSF" min="0" max="3000" step="10" value="500">
-            </div>
-            <div class="input-group">
-                <label for="firstFlrSF">1st Floor Area (sq ft) <small>(Min: 0, Max: 3000)</small></label>
-                <input type="number" id="firstFlrSF" min="0" max="3000" step="10" value="500">
-            </div>
-            <div class="input-group">
-                <label for="grLivArea">Above Grade Living Area (sq ft) <small>(Min: 0, Max: 3000)</small></label>
-                <input type="number" id="grLivArea" min="0" max="3000" step="10" value="500">
-            </div>
-            <div class="input-group">
-                <label for="fullBath">Full Bathrooms <small>(Min: 0, Max: 3)</small></label>
-                <input type="number" id="fullBath" min="0" max="3" step="1" value="1">
-            </div>
-            <div class="input-group">
-                <label for="bedroomAbvGr">Bedrooms Above Ground <small>(Min: 0, Max: 5)</small></label>
-                <input type="number" id="bedroomAbvGr" min="0" max="5" step="1" value="3">
-            </div>
-            <div class="input-group">
-                <label for="kitchenQual">Kitchen Quality</label>
-                <select id="kitchenQual">
-                    <option value="TA">Typical/Average</option>
-                    <option value="Gd">Good</option>
-                    <option value="Ex">Excellent</option>
+                <label for="centralAir">Central Air</label>
+                <select id="centralAir">
+                    <option value="Y">Yes</option>
+                    <option value="N">No</option>
                 </select>
             </div>
             <div class="input-group">
@@ -79,8 +116,16 @@
                 <input type="number" id="garageCars" min="0" max="4" step="1" value="1">
             </div>
             <div class="input-group">
-                <label for="garageArea">Garage Area (sq ft) <small>(Min: 0, Max: 1000)</small></label>
-                <input type="number" id="garageArea" min="0" max="1000" step="10" value="200">
+                <label for="totRmsAbvGrd">Total Rooms Above Ground <small>(Min: 0, Max: 15)</small></label>
+                <input type="number" id="totRmsAbvGrd" min="0" max="15" step="1" value="6">
+            </div>
+            <div class="input-group">
+                <label for="fullBath">Full Bathrooms <small>(Min: 0, Max: 3)</small></label>
+                <input type="number" id="fullBath" min="0" max="3" step="1" value="1">
+            </div>
+            <div class="input-group">
+                <label for="halfBath">Half Bathrooms <small>(Min: 0, Max: 2)</small></label>
+                <input type="number" id="halfBath" min="0" max="2" step="1" value="1">
             </div>
             <button onclick="predictPrice()">Predict Price</button>
         </section>
@@ -97,18 +142,14 @@
                 neighborhood: document.getElementById('neighborhood').value,
                 yearBuilt: document.getElementById('yearBuilt').value,
                 lotArea: document.getElementById('lotArea').value,
-                condition1: document.getElementById('condition1').value
-                overallQual: document.getElementById('overallQual').value,
-                totalBsmtSF: document.getElementById('totalBsmtSF').value,
-                firstFlrSF: document.getElementById('firstFlrSF').value,
-                grLivArea: document.getElementById('grLivArea').value,
-                fullBath: document.getElementById('fullBath').value,
-                bedroomAbvGr: document.getElementById('bedroomAbvGr').value,
-                kitchenQual: document.getElementById('kitchenQual').value,
+                bldgType: document.getElementById('bldgType').value,
+                centralAir: document.getElementById('centralAir').value,
                 garageCars: document.getElementById('garageCars').value,
-                garageArea: document.getElementById('garageArea').value,
+                totRmsAbvGrd: document.getElementById('totRmsAbvGrd').value,
+                fullBath: document.getElementById('fullBath').value,
+                halfBath: document.getElementById('halfBath').value,
             };
-    
+
             fetch('/predict', {
                 method: 'POST',
                 headers: {
@@ -125,3 +166,5 @@
             });
         }
     </script>
+</body>
+</html>
