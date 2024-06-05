@@ -1,3 +1,17 @@
+from flask import Flask, request, jsonify, render_template
+import joblib
+import pandas as pd
+
+app = Flask(__name__)
+
+# Load the pre-trained model and preprocessor
+model = joblib.load('house_price_model.pkl')
+preprocessor = joblib.load('preprocessor.pkl')
+
+@app.route('/')
+def home():
+    return render_template('index.html')
+
 @app.route('/predict', methods=['POST'])
 def predict():
     data = request.json
