@@ -39,6 +39,10 @@ def predict():
 
         # Preprocess features
         processed_features = preprocessor.transform(features)
+        
+        # Ensure processed features are the correct shape
+        if processed_features.shape[1] != 38:
+            raise ValueError(f"Processed features shape mismatch: {processed_features.shape[1]} features instead of 38")
 
         app.logger.info(f"Processed features: {processed_features}")
 
