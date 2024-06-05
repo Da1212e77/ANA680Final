@@ -94,8 +94,10 @@
     <script>
         function predictPrice() {
             const data = {
-                lotArea: document.getElementById('lotArea').value,
+                neighborhood: document.getElementById('neighborhood').value,
                 yearBuilt: document.getElementById('yearBuilt').value,
+                lotArea: document.getElementById('lotArea').value,
+                condition1: document.getElementById('condition1').value
                 overallQual: document.getElementById('overallQual').value,
                 totalBsmtSF: document.getElementById('totalBsmtSF').value,
                 firstFlrSF: document.getElementById('firstFlrSF').value,
@@ -104,7 +106,7 @@
                 bedroomAbvGr: document.getElementById('bedroomAbvGr').value,
                 kitchenQual: document.getElementById('kitchenQual').value,
                 garageCars: document.getElementById('garageCars').value,
-                garageArea: document.getElementById('garageArea').value
+                garageArea: document.getElementById('garageArea').value,
             };
     
             fetch('/predict', {
