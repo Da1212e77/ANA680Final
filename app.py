@@ -1,8 +1,6 @@
-import pickle
-import numpy as np
-import pandas as pd
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 import joblib
+import pandas as pd
 
 app = Flask(__name__)
 
@@ -10,45 +8,39 @@ app = Flask(__name__)
 model = joblib.load('house_price_model.pkl')
 preprocessor = joblib.load('preprocessor.pkl')
 
+@app.route('/')
+def home():
+    return render_template('index.html')
+
 @app.route('/predict', methods=['POST'])
 def predict():
+    data = request.json
+    app.logger.info(f"Received data: {data}")
     try:
-        data = request.get_json()
+        # Convert input data to DataFrame and ensure correct types
+        features = pd.DataFrame([data], columns=[
+            'neighborhood', 'lotArea', 'yearBuilt', 'bldgType', 'centralAir', 
+            'garageCars', 'totRmsAbvGrd', 'fullBath', 'halfBath'
+        ])
         
-        # Ensure all expected fields are present
-        expected_fields = ['neighborhood', 'yearBuilt', 'lotArea', 'bldgType', 'centralAir', 'garageCars', 'totRmsAbvGrd', 'fullBath', 'halfBath']
-        for field in expected_fields:
-            if field not in data:
-                raise ValueError(f'Missing field: {field}')
+        # Convert numerical columns to correct type
+        features['lotArea'] = features['lotArea'].astype(float)
+        features['yearBuilt'] = features['yearBuilt'].astype(int)
+        features['garageCars'] = features['garageCars'].astype(int)
+        features['totRmsAbvGrd'] = features['totRmsAbvGrd'].astype(int)
+        features['fullBath'] = features['fullBath'].astype(int)
+        features['halfBath'] = features['halfBath'].astype(int)
+        
+        # Preprocess features
+        processed_features = preprocessor.transform(features)
 
-        # Map the incoming data to the expected format for the model
-        input_data = {
-            'Neighborhood': data['neighborhood'],
-            'YearBuilt': int(data['yearBuilt']),
-            'LotArea': int(data['lotArea']),
-            'BldgType': data['bldgType'],
-            'CentralAir': data['centralAir'],
-            'GarageCars': int(data['garageCars']),
-            'TotRmsAbvGrd': int(data['totRmsAbvGrd']),
-            'FullBath': int(data['fullBath']),
-            'HalfBath': int(data['halfBath'])
-        }
-
-        # Convert the input data to a DataFrame
-        input_df = pd.DataFrame([input_data])
-        
-        # Preprocess the input data
-        processed_data = preprocessor.transform(input_df)
-        
-        # Make a prediction
-        prediction = model.predict(processed_data)
-        
-        # Return the prediction as a JSON response
+        # Make prediction
+        prediction = model.predict(processed_features)
+        app.logger.info(f"Prediction: {prediction[0]}")
         return jsonify({'predicted_price': prediction[0]})
-    
     except Exception as e:
-        return jsonify({'error': str(e)}), 400
+        app.logger.error(f"Error making prediction: {e}")
+        return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)
-
