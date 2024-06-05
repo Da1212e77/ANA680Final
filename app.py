@@ -20,31 +20,31 @@ def predict():
     # Convert keys to PascalCase
     data = {key.title().replace('_', ''): value for key, value in data.items()}
 
-    try:
-        # Convert input data to DataFrame and ensure correct types
-        features = pd.DataFrame([data], columns=[
-            'Neighborhood', 'LotArea', 'YearBuilt', 'BldgType', 'CentralAir', 
-            'GarageCars', 'TotRmsAbvGrd', 'FullBath', 'HalfBath'
-        ])
-        
-        # Convert numerical columns to correct type
-        features['LotArea'] = features['LotArea'].astype(float)
-        features['YearBuilt'] = features['YearBuilt'].astype(int)
-        features['GarageCars'] = features['GarageCars'].astype(int)
-        features['TotRmsAbvGrd'] = features['TotRmsAbvGrd'].astype(int)
-        features['FullBath'] = features['FullBath'].astype(int)
-        features['HalfBath'] = features['HalfBath'].astype(int)
-        
-        # Preprocess features
-        processed_features = preprocessor.transform(features)
+try:
+    # Convert input data to DataFrame and ensure correct types
+    features = pd.DataFrame([data], columns=[
+        'Neighborhood', 'LotArea', 'YearBuilt', 'BldgType', 'CentralAir', 
+        'GarageCars', 'TotRmsAbvGrd', 'FullBath', 'HalfBath'
+    ])
+    
+    # Convert numerical columns to correct type
+    features['LotArea'] = features['LotArea'].astype(float)
+    features['YearBuilt'] = features['YearBuilt'].astype(int)
+    features['GarageCars'] = features['GarageCars'].astype(int)
+    features['TotRmsAbvGrd'] = features['TotRmsAbvGrd'].astype(int)
+    features['FullBath'] = features['FullBath'].astype(int)
+    features['HalfBath'] = features['HalfBath'].astype(int)
+    
+    # Preprocess features
+    processed_features = preprocessor.transform(features)
 
-        # Make prediction
-        prediction = model.predict(processed_features)
-        app.logger.info(f"Prediction: {prediction[0]}")
-        return jsonify({'predicted_price': prediction[0]})
-    except Exception as e:
-        app.logger.error(f"Error making prediction: {e}")
-        return jsonify({'error': str(e)}), 500
+    # Make prediction
+    prediction = model.predict(processed_features)
+    app.logger.info(f"Prediction: {prediction[0]}")
+    return jsonify({'predicted_price': prediction[0]})
+except Exception as e:
+    app.logger.error(f"Error making prediction: {e}")
+    return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)
