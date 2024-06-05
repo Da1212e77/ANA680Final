@@ -23,11 +23,19 @@ def predict():
     data = request.json
     app.logger.info(f"Received data: {data}")
     try:
-        # Create a DataFrame with the appropriate column names
+        # Convert input data to DataFrame and ensure correct types
         features = pd.DataFrame([data], columns=[
             'neighborhood', 'lotArea', 'yearBuilt', 'bldgType', 'centralAir', 
             'garageCars', 'totRmsAbvGrd', 'fullBath', 'halfBath'
         ])
+        
+        # Convert numerical columns to correct type
+        features['lotArea'] = features['lotArea'].astype(float)
+        features['yearBuilt'] = features['yearBuilt'].astype(int)
+        features['garageCars'] = features['garageCars'].astype(int)
+        features['totRmsAbvGrd'] = features['totRmsAbvGrd'].astype(int)
+        features['fullBath'] = features['fullBath'].astype(int)
+        features['halfBath'] = features['halfBath'].astype(int)
         
         # Preprocess features
         features = preprocess_features(features)
@@ -62,7 +70,7 @@ def preprocess_features(df):
             ('cat', categorical_transformer, categorical_features)
         ])
     
-    return preprocessor.fit_transform(df)
+    return preprocessor.transform(df)
 
 if __name__ == '__main__':
     app.run(debug=True)
