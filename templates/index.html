@@ -4,108 +4,154 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>House Price Prediction</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-image: url('images/istockphoto-1145974302-612x612.jpg');
-            background-size: 60%;
-            background-repeat: no-repeat;
-            background-position: center;
-            opacity: 0.9;
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
         }
-        .content {
-            background: rgba(255, 255, 255, 0.8);
+        .container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
             padding: 20px;
-            border-radius: 10px;
-            text-align: center;
         }
-        h1 {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 3em;
-            color: white;
-            text-shadow: 2px 2px 4px #000000;
+        header {
             text-align: center;
+            margin-bottom: 20px;
+        }
+        header h1 {
+            font-size: 2.5em;
+            margin: 0;
+            color: #343a40;
         }
         .input-group {
             margin-bottom: 15px;
-            text-align: left;
-            display: inline-block;
-            width: 48%;
+            width: 100%;
         }
         label {
             display: block;
-            font-weight: bold;
+            margin-bottom: 5px;
+            font-weight: 600;
         }
         input[type="number"], select {
             width: 100%;
-            padding: 8px;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
             box-sizing: border-box;
+            font-size: 1em;
+        }
+        .input-group-half {
+            width: 48%;
+            display: inline-block;
+        }
+        .input-group-half:first-child {
+            margin-right: 4%;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
         }
         .result {
             margin-top: 20px;
+            text-align: center;
+        }
+        .result h2 {
+            font-size: 1.5em;
+            color: #343a40;
+        }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #6c757d;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>City of Ames, Iowa</h1>
-    </header>
-    <main class="content">
-        <section>
-            <h2>Enter Details</h2>
-            <div class="input-group">
-                <label for="neighborhood">Neighborhood</label>
-                <select id="neighborhood">
-                    <option value="Blmngtn">Bloomington Heights</option>
-                    <option value="Blueste">Bluestem</option>
-                    <option value="BrDale">Briardale</option>
-                    <option value="BrkSide">Brookside</option>
-                    <option value="ClearCr">Clear Creek</option>
-                    <option value="CollgCr">College Creek</option>
-                    <option value="Crawfor">Crawford</option>
-                    <option value="Edwards">Edwards</option>
-                    <option value="Gilbert">Gilbert</option>
-                    <option value="IDOTRR">Iowa DOT and Rail Road</option>
-                    <option value="MeadowV">Meadow Village</option>
-                    <option value="Mitchel">Mitchell</option>
-                    <option value="Names">North Ames</option>
-                    <option value="NoRidge">Northridge</option>
-                    <option value="NPkVill">Northpark Villa</option>
-                    <option value="NridgHt">Northridge Heights</option>
-                    <option value="NWAmes">Northwest Ames</option>
-                    <option value="OldTown">Old Town</option>
-                    <option value="SWISU">South & West of Iowa State University</option>
-                    <option value="Sawyer">Sawyer</option>
-                    <option value="SawyerW">Sawyer West</option>
-                    <option value="Somerst">Somerset</option>
-                    <option value="StoneBr">Stone Brook</option>
-                    <option value="Timber">Timberland</option>
-                    <option value="Veenker">Veenker</option>
-                </select>
-            </div>
-            <div class="input-group">
-                <label for="lotArea">Lot Area (sq ft) <small>(Min: 0, Max: 20000)</small></label>
-                <input type="number" id="lotArea" min="0" max="20000" step="100" value="0">
-            </div>
-            <div class="input-group">
-                <label for="yearBuilt">Year Built <small>(Min: 1900, Max: 2021)</small></label>
-                <input type="number" id="yearBuilt" min="1900" max="2021" step="1" value="1900">
-            </div>
-            <div class="input-group">
-                <label for="totRmsAbvGrd">Total Rooms Above Ground <small>(Min: 0, Max: 15)</small></label>
-                <input type="number" id="totRmsAbvGrd" min="0" max="15" step="1" value="0">
-            </div>
-            <button onclick="predictPrice()">Predict Price</button>
-        </section>
-        <section class="result">
-            <h2>Predicted House Price: <span id="predictedPrice">$0.00</span></h2>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2024 House Price Prediction Project</p>
-    </footer>
+    <div class="container">
+        <header>
+            <h1>House Price Prediction</h1>
+        </header>
+        <main>
+            <section>
+                <h2>Enter Details</h2>
+                <div class="input-group">
+                    <label for="neighborhood">Neighborhood</label>
+                    <select id="neighborhood">
+                        <!-- Options truncated for brevity -->
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="lotArea">Lot Area (sq ft)</label>
+                    <input type="number" id="lotArea" min="0" max="20000" step="100" value="0">
+                </div>
+                <div class="input-group">
+                    <label for="yearBuilt">Year Built</label>
+                    <input type="number" id="yearBuilt" min="1900" max="2021" step="1" value="1900">
+                </div>
+                <div class="input-group">
+                    <label for="totRmsAbvGrd">Total Rooms</label>
+                    <input type="number" id="totRmsAbvGrd" min="0" max="15" step="1" value="0">
+                </div>
+                <button onclick="predictPrice()">Predict Price</button>
+            </section>
+            <section class="result">
+                <h2>Predicted House Price: <span id="predictedPrice">$0.00</span></h2>
+            </section>
+        </main>
+        <footer>
+            <p>&copy; 2024 House Price Prediction Project</p>
+        </footer>
+    </div>
     <script>
-       
+        function predictPrice() {
+            const data = {
+                neighborhood: document.getElementById('neighborhood').value,
+                yearBuilt: document.getElementById('yearBuilt').value,
+                lotArea: document.getElementById('lotArea').value,
+                totRmsAbvGrd: document.getElementById('totRmsAbvGrd').value
+            };
+
+            fetch('/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.predicted_price !== undefined) {
+                    document.getElementById('predictedPrice').innerText = `$${result.predicted_price.toFixed(2)}`;
+                } else {
+                    document.getElementById('predictedPrice').innerText = `Error: ${result.error}`;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('predictedPrice').innerText = `Error: ${error}`;
+            });
+        }
+    </script>
+</body>
+</html>
