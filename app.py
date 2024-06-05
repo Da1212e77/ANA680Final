@@ -17,10 +17,18 @@ def predict():
     data = request.json
     app.logger.info(f"Received data: {data}")
 
-    # Convert keys to match the expected format
-    data = {key.title().replace('_', ''): value for key, value in data.items()}
-
     try:
+        # Convert input data to correct types
+        data['yearBuilt'] = int(data['yearBuilt'])
+        data['lotArea'] = float(data['lotArea'])
+        data['garageCars'] = int(data['garageCars'])
+        data['totRmsAbvGrd'] = int(data['totRmsAbvGrd'])
+        data['fullBath'] = int(data['fullBath'])
+        data['halfBath'] = int(data['halfBath'])
+        
+        # Convert keys to match the expected format
+        data = {key.title().replace('_', ''): value for key, value in data.items()}
+        
         # Convert input data to DataFrame
         features = pd.DataFrame([data], columns=[
             'Neighborhood', 'YearBuilt', 'LotArea', 'BldgType', 'CentralAir', 
@@ -28,14 +36,6 @@ def predict():
         ])
         
         app.logger.info(f"Features before processing: {features}")
-
-        # Explicitly convert numerical columns to correct types
-        features['LotArea'] = features['LotArea'].astype(float)
-        features['YearBuilt'] = features['YearBuilt'].astype(int)
-        features['GarageCars'] = features['GarageCars'].astype(int)
-        features['TotRmsAbvGrd'] = features['TotRmsAbvGrd'].astype(int)
-        features['FullBath'] = features['FullBath'].astype(int)
-        features['HalfBath'] = features['HalfBath'].astype(int)
 
         # Preprocess features
         processed_features = preprocessor.transform(features)
