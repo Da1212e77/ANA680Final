@@ -1,17 +1,13 @@
-# Use an official Python runtime as a parent image
+# Use the official lightweight Python image.
+# https://hub.docker.com/_/python
 FROM python:3.9-slim
 
-# Set the working directory in the container
+# Copy local code to the container image.
 WORKDIR /app
+COPY . .
 
-# Copy the current directory contents into the container
-COPY . /app
-
-# Install any needed packages specified in requirements.txt
+# Install production dependencies.
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Make port 80 available to the world outside this container
-EXPOSE 80
-
-# Run the Flask app using Gunicorn
-CMD ["gunicorn", "-c", "gunicorn_config.py", "app:app"]
+# Run the web service on container startup.
+CMD ["gunicorn", "--bind", "0.0.0.0:8080", "app:app"]

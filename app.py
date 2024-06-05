@@ -14,6 +14,8 @@ def home():
 @app.route('/predict', methods=['POST'])
 def predict():
     data = request.json
+    app.logger.info(f"Received data: {data}")
+
     try:
         # Convert input data to correct types
         data['yearBuilt'] = int(data['yearBuilt'])
@@ -32,13 +34,18 @@ def predict():
             'GarageCars', 'TotRmsAbvGrd', 'FullBath', 'HalfBath'
         ])
         
+        app.logger.info(f"Features before processing: {features}")
+
         # Preprocess features
         processed_features = model.named_steps['preprocessor'].transform(features)
+        app.logger.info(f"Processed features: {processed_features}")
 
         # Make prediction
         prediction = model.named_steps['regressor'].predict(processed_features)
+        app.logger.info(f"Prediction: {prediction[0]}")
         return jsonify({'predicted_price': prediction[0]})
     except Exception as e:
+        app.logger.error(f"Error making prediction: {e}")
         return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':

@@ -45,4 +45,5 @@ jobs:
             ]
           }' \
           -H "Content-Type: application/json" \
-          -H "Authorization
+          -H "Authorization: Bearer $HEROKU_API_KEY" \
+          -H "Accept: application/vnd.heroku+json; version=3.docker-container"
