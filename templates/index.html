@@ -159,10 +159,15 @@
             })
             .then(response => response.json())
             .then(result => {
-                document.getElementById('predictedPrice').innerText = `$${result.predicted_price.toFixed(2)}`;
+                if (result.predicted_price !== undefined) {
+                    document.getElementById('predictedPrice').innerText = `$${result.predicted_price.toFixed(2)}`;
+                } else {
+                    document.getElementById('predictedPrice').innerText = `Error: ${result.error}`;
+                }
             })
             .catch(error => {
                 console.error('Error:', error);
+                document.getElementById('predictedPrice').innerText = `Error: ${error}`;
             });
         }
     </script>
