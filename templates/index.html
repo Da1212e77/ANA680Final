@@ -10,7 +10,7 @@
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
-            background-image: url('https://www.istockphoto.com/vector/ames-iowa-city-skyline-with-color-buildings-blue-sky-and-reflections-gm1145974302-308626844');
+            background-image: url('images/istockphoto-1145974302-612x612.jpg');
             background-size: 60%;
             background-repeat: no-repeat;
             background-position: center;
@@ -88,11 +88,11 @@
             </div>
             <div class="input-group">
                 <label for="lotArea">Lot Area (sq ft) <small>(Min: 0, Max: 20000)</small></label>
-                <input type="number" id="lotArea" min="0" max="20000" step="100" value="5000">
+                <input type="number" id="lotArea" min="0" max="20000" step="100" value="0">
             </div>
             <div class="input-group">
                 <label for="yearBuilt">Year Built <small>(Min: 1900, Max: 2021)</small></label>
-                <input type="number" id="yearBuilt" min="1900" max="2021" step="1" value="2000">
+                <input type="number" id="yearBuilt" min="1900" max="2021" step="1" value="1900">
             </div>
             <div class="input-group">
                 <label for="bldgType">Building Type</label>
@@ -113,19 +113,19 @@
             </div>
             <div class="input-group">
                 <label for="garageCars">Garage Capacity (Cars) <small>(Min: 0, Max: 4)</small></label>
-                <input type="number" id="garageCars" min="0" max="4" step="1" value="1">
+                <input type="number" id="garageCars" min="0" max="4" step="1" value="0">
             </div>
             <div class="input-group">
                 <label for="totRmsAbvGrd">Total Rooms Above Ground <small>(Min: 0, Max: 15)</small></label>
-                <input type="number" id="totRmsAbvGrd" min="0" max="15" step="1" value="6">
+                <input type="number" id="totRmsAbvGrd" min="0" max="15" step="1" value="0">
             </div>
             <div class="input-group">
                 <label for="fullBath">Full Bathrooms <small>(Min: 0, Max: 3)</small></label>
-                <input type="number" id="fullBath" min="0" max="3" step="1" value="1">
+                <input type="number" id="fullBath" min="0" max="3" step="1" value="0">
             </div>
             <div class="input-group">
                 <label for="halfBath">Half Bathrooms <small>(Min: 0, Max: 2)</small></label>
-                <input type="number" id="halfBath" min="0" max="2" step="1" value="1">
+                <input type="number" id="halfBath" min="0" max="2" step="1" value="0">
             </div>
             <button onclick="predictPrice()">Predict Price</button>
         </section>
