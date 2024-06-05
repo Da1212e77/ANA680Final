@@ -1,13 +1,20 @@
 # Use the official lightweight Python image.
-# https://hub.docker.com/_/python
 FROM python:3.9-slim
 
-# Copy local code to the container image.
+# Set the working directory in the container
 WORKDIR /app
+
+# Copy the current directory contents into the container at /app
 COPY . .
 
-# Install production dependencies.
+# Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Run the web service on container startup.
+# Make port 8080 available to the world outside this container
+EXPOSE 8080
+
+# Define environment variable
+ENV NAME World
+
+# Run app.py when the container launches
 CMD ["gunicorn", "--bind", "0.0.0.0:8080", "app:app"]

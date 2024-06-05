@@ -24,16 +24,25 @@ jobs:
           pip install -r requirements.txt
 
       - name: Build Docker image
-        run: |
-          docker build -t house-price-prediction-app .
+        run: docker build -t drlamio/house-price-prediction-app .
+
+      - name: Log in to Docker Hub
+        run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+
+      - name: Push Docker image to Docker Hub
+        run: docker push drlamio/house-price-prediction-app:latest
 
       - name: Log in to Heroku Docker registry
-        run: echo "$HEROKU_API_KEY" | docker login --username="$HEROKU_USERNAME" --password-stdin registry.heroku.com
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: echo $HEROKU_API_KEY | docker login --username=$HEROKU_USERNAME --password-stdin registry.heroku.com
 
       - name: Push to Heroku Docker registry
         run: docker push registry.heroku.com/$HEROKU_APP_NAME/web
 
       - name: Release on Heroku
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: |
           curl -n -X PATCH https://api.heroku.com/apps/$HEROKU_APP_NAME/formation \
           -d '{
