@@ -8,6 +8,10 @@ app = Flask(__name__)
 with open('house_price_model.pkl', 'rb') as file:
     model = pickle.load(file)
 
+@app.route('/')
+def home():
+    return "Welcome to the Real Estate Price Prediction API!"
+
 @app.route('/predict', methods=['POST'])
 def predict():
     data = request.get_json()
