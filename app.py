@@ -2,10 +2,6 @@ from flask import Flask, request, jsonify, render_template
 import pickle
 import numpy as np
 import pandas as pd
-from sklearn.preprocessing import StandardScaler, OneHotEncoder
-from sklearn.impute import SimpleImputer
-from sklearn.compose import ColumnTransformer
-from sklearn.pipeline import Pipeline
 
 app = Flask(__name__)
 
@@ -13,6 +9,11 @@ app = Flask(__name__)
 model_path = 'house_price_model.pkl'
 with open(model_path, 'rb') as model_file:
     model = pickle.load(model_file)
+
+# Load the preprocessor
+preprocessor_path = 'preprocessor.pkl'
+with open(preprocessor_path, 'rb') as preprocessor_file:
+    preprocessor = pickle.load(preprocessor_file)
 
 @app.route('/')
 def home():
@@ -38,39 +39,15 @@ def predict():
         features['halfBath'] = features['halfBath'].astype(int)
         
         # Preprocess features
-        features = preprocess_features(features)
+        processed_features = preprocessor.transform(features)
 
         # Make prediction
-        prediction = model.predict(features)
+        prediction = model.predict(processed_features)
         app.logger.info(f"Prediction: {prediction[0]}")
         return jsonify({'predicted_price': prediction[0]})
     except Exception as e:
         app.logger.error(f"Error making prediction: {e}")
         return jsonify({'error': str(e)}), 500
-
-def preprocess_features(df):
-    # Define categorical and numerical features
-    categorical_features = ['neighborhood', 'bldgType', 'centralAir']
-    numerical_features = ['lotArea', 'yearBuilt', 'garageCars', 'totRmsAbvGrd', 'fullBath', 'halfBath']
-    
-    # Create preprocessing pipelines
-    numeric_transformer = Pipeline(steps=[
-        ('imputer', SimpleImputer(strategy='median')),
-        ('scaler', StandardScaler())
-    ])
-
-    categorical_transformer = Pipeline(steps=[
-        ('imputer', SimpleImputer(strategy='most_frequent')),
-        ('onehot', OneHotEncoder(handle_unknown='ignore'))
-    ])
-
-    preprocessor = ColumnTransformer(
-        transformers=[
-            ('num', numeric_transformer, numerical_features),
-            ('cat', categorical_transformer, categorical_features)
-        ])
-    
-    return preprocessor.transform(df)
 
 if __name__ == '__main__':
     app.run(debug=True)
