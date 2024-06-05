@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify, render_template
 import pickle
 import numpy as np
+import pandas as pd
 
 app = Flask(__name__)
 
@@ -18,21 +19,14 @@ def predict():
     data = request.json
     app.logger.info(f"Received data: {data}")
     try:
-        features = [
-            data['neighborhood'],
-            data['lotArea'],
-            data['yearBuilt'],
-            data['bldgType'],
-            data['centralAir'],
-            data['garageCars'],
-            data['totRmsAbvGrd'],
-            data['fullBath'],
-            data['halfBath']
-        ]
-
-        # Convert features into the appropriate format
-        final_features = np.array([features])
-        prediction = model.predict(final_features)
+        # Create a DataFrame with the appropriate column names
+        features = pd.DataFrame([data], columns=[
+            'neighborhood', 'lotArea', 'yearBuilt', 'bldgType', 'centralAir', 
+            'garageCars', 'totRmsAbvGrd', 'fullBath', 'halfBath'
+        ])
+        
+        # Make prediction
+        prediction = model.predict(features)
         app.logger.info(f"Prediction: {prediction[0]}")
         return jsonify({'predicted_price': prediction[0]})
     except Exception as e:
