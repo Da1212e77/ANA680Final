@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>House Price Prediction</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+        }
+        input[type="number"], select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        .result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>House Price Prediction</h1>
+    </header>
+    <main>
+        <section>
+            <h2>Enter Details</h2>
+            <div class="input-group">
+                <label for="lotArea">Lot Area (sq ft) <small>(Min: 0, Max: 20000)</small></label>
+                <input type="number" id="lotArea" min="0" max="20000" step="100" value="5000">
+            </div>
+            <div class="input-group">
+                <label for="yearBuilt">Year Built <small>(Min: 1900, Max: 2021)</small></label>
+                <input type="number" id="yearBuilt" min="1900" max="2021" step="1" value="2000">
+            </div>
+            <div class="input-group">
+                <label for="overallQual">Overall Quality <small>(Min: 1, Max: 10)</small></label>
+                <input type="number" id="overallQual" min="1" max="10" step="1" value="5">
+            </div>
+            <div class="input-group">
+                <label for="totalBsmtSF">Total Basement Area (sq ft) <small>(Min: 0, Max: 3000)</small></label>
+                <input type="number" id="totalBsmtSF" min="0" max="3000" step="10" value="500">
+            </div>
+            <div class="input-group">
+                <label for="firstFlrSF">1st Floor Area (sq ft) <small>(Min: 0, Max: 3000)</small></label>
+                <input type="number" id="firstFlrSF" min="0" max="3000" step="10" value="500">
+            </div>
+            <div class="input-group">
+                <label for="grLivArea">Above Grade Living Area (sq ft) <small>(Min: 0, Max: 3000)</small></label>
+                <input type="number" id="grLivArea" min="0" max="3000" step="10" value="500">
+            </div>
+            <div class="input-group">
+                <label for="fullBath">Full Bathrooms <small>(Min: 0, Max: 3)</small></label>
+                <input type="number" id="fullBath" min="0" max="3" step="1" value="1">
+            </div>
+            <div class="input-group">
+                <label for="bedroomAbvGr">Bedrooms Above Ground <small>(Min: 0, Max: 5)</small></label>
+                <input type="number" id="bedroomAbvGr" min="0" max="5" step="1" value="3">
+            </div>
+            <div class="input-group">
+                <label for="kitchenQual">Kitchen Quality</label>
+                <select id="kitchenQual">
+                    <option value="TA">Typical/Average</option>
+                    <option value="Gd">Good</option>
+                    <option value="Ex">Excellent</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="garageCars">Garage Capacity (Cars) <small>(Min: 0, Max: 4)</small></label>
+                <input type="number" id="garageCars" min="0" max="4" step="1" value="1">
+            </div>
+            <div class="input-group">
+                <label for="garageArea">Garage Area (sq ft) <small>(Min: 0, Max: 1000)</small></label>
+                <input type="number" id="garageArea" min="0" max="1000" step="10" value="200">
+            </div>
+            <button onclick="predictPrice()">Predict Price</button>
+        </section>
+        <section class="result">
+            <h2>Predicted House Price: <span id="predictedPrice">$0.00</span></h2>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 House Price Prediction Project</p>
+    </footer>
+    <script>
+        function predictPrice() {
+            const lotArea = document.getElementById('lotArea').value;
+            const yearBuilt = document.getElementById('yearBuilt').value;
+            const overallQual = document.getElementById('overallQual').value;
+            const totalBsmtSF
