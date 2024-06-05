@@ -6,39 +6,43 @@ on:
       - main
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.9'
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
-    - name: Run tests
-      run: |
-        # Add your test commands here
-        echo "Tests passed!"
+      - name: Build Docker image
+        run: |
+          docker build -t house-price-prediction-app .
 
-    - name: Build Docker image
-      run: |
-        docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-        docker build -t ${{ secrets.DOCKER_USERNAME }}/house-price-prediction:latest .
-        docker push ${{ secrets.DOCKER_USERNAME }}/house-price-prediction:latest
+      - name: Log in to Heroku Docker registry
+        run: echo "$HEROKU_API_KEY" | docker login --username="$HEROKU_USERNAME" --password-stdin registry.heroku.com
 
-    - name: Deploy to Heroku
-      env:
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: |
-        docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
-        docker tag ${{ secrets.DOCKER_USERNAME }}/house-price-prediction:latest registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
-        docker push registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
-        heroku container:release web --app ${{ secrets.HEROKU_APP_NAME }}
+      - name: Push to Heroku Docker registry
+        run: docker push registry.heroku.com/$HEROKU_APP_NAME/web
+
+      - name: Release on Heroku
+        run: |
+          curl -n -X PATCH https://api.heroku.com/apps/$HEROKU_APP_NAME/formation \
+          -d '{
+            "updates": [
+              {
+                "type": "web",
+                "docker_image": "'"$(docker inspect registry.heroku.com/$HEROKU_APP_NAME/web:latest --format={{.Id}})"'"
+              }
+            ]
+          }' \
+          -H "Content-Type: application/json" \
+          -H "Authorization
