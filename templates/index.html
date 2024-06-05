@@ -151,7 +151,47 @@
                 </div>
                 <button onclick="predictPrice()">Predict Price</button>
             </section>
-            < &#8203;:citation[oaicite:0]{index=0}&#8203;
             <section class="result">
                 <h2>Price Prediction</h2>
                 <p id="result"></p>
+            </section>
+        </main>
+        <footer>
+            <p>&copy; 2024 House Price Prediction Project</p>
+        </footer>
+    </div>
+    <script>
+        function predictPrice() {
+            const data = {
+                neighborhood: document.getElementById('neighborhood').value,
+                lotArea: document.getElementById('lotArea').value,
+                yearBuilt: document.getElementById('yearBuilt').value,
+                totRmsAbvGrd: document.getElementById('totRmsAbvGrd').value,
+                garageCars: document.getElementById('garageCars').value,
+                fullBath: document.getElementById('fullBath').value,
+                halfBath: document.getElementById('halfBath').value
+            };
+
+            fetch('/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.predicted_price !== undefined) {
+                    document.getElementById('result').innerText = `$${result.predicted_price.toFixed(2)}`;
+                } else {
+                    document.getElementById('result').innerText = `Error: ${result.error}`;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('result').innerText = `Error: ${error}`;
+            });
+        }
+    </script>
+</body>
+</html>
