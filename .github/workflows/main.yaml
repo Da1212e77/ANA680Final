@@ -32,16 +32,10 @@ jobs:
       - name: Push Docker image to Docker Hub
         run: docker push drlamio/house-price-prediction-app:latest
 
-      - name: Print Heroku secrets (for debugging purposes)
-        run: |
-          echo "HEROKU_USERNAME=${{ secrets.HEROKU_USERNAME }}"
-          echo "HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }}"
-          echo "HEROKU_PASSWORD=${{ secrets.HEROKU_PASSWORD }}"
-
       - name: Log in to Heroku Docker registry
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: echo ${{ secrets.HEROKU_PASSWORD }} | docker login --username=${{ secrets.HEROKU_USERNAME }} --password-stdin registry.heroku.com
+        run: echo ${{ secrets.HEROKU_API_KEY }} | docker login --username=_ --password-stdin registry.heroku.com
 
       - name: Push to Heroku Docker registry
         run: docker push registry.heroku.com/amescityhousingprediciton/web
