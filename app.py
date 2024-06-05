@@ -6,7 +6,6 @@ app = Flask(__name__)
 
 # Load the pre-trained model and preprocessor
 model = joblib.load('house_price_model.pkl')
-preprocessor = joblib.load('preprocessor.pkl')
 
 @app.route('/')
 def home():
@@ -38,16 +37,11 @@ def predict():
         app.logger.info(f"Features before processing: {features}")
 
         # Preprocess features
-        processed_features = preprocessor.transform(features)
-
+        processed_features = model.named_steps['preprocessor'].transform(features)
         app.logger.info(f"Processed features: {processed_features}")
 
-        # Ensure processed features are the correct shape
-        if processed_features.shape[1] != model.named_steps['regressor'].coef_.shape[0]:
-            raise ValueError(f"Processed features shape mismatch: {processed_features.shape[1]} features instead of {model.named_steps['regressor'].coef_.shape[0]}")
-
         # Make prediction
-        prediction = model.predict(processed_features)
+        prediction = model.named_steps['regressor'].predict(processed_features)
         app.logger.info(f"Prediction: {prediction[0]}")
         return jsonify({'predicted_price': prediction[0]})
     except Exception as e:
