@@ -21,15 +21,15 @@ def predict():
     data = {key.title().replace('_', ''): value for key, value in data.items()}
 
     try:
-        # Convert input data to DataFrame and ensure correct types
+        # Convert input data to DataFrame
         features = pd.DataFrame([data], columns=[
             'Neighborhood', 'YearBuilt', 'LotArea', 'BldgType', 'CentralAir', 
             'GarageCars', 'TotRmsAbvGrd', 'FullBath', 'HalfBath'
         ])
-
+        
         app.logger.info(f"Features before processing: {features}")
 
-        # Convert numerical columns to correct type
+        # Explicitly convert numerical columns to correct types
         features['LotArea'] = features['LotArea'].astype(float)
         features['YearBuilt'] = features['YearBuilt'].astype(int)
         features['GarageCars'] = features['GarageCars'].astype(int)
