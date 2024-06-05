@@ -6,8 +6,8 @@ COPY . /app
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-EXPOSE 5000
+EXPOSE 80
 
 ENV NAME HousePricePrediction
 
-CMD ["python", "app.py"]
+CMD ["gunicorn", "-c", "gunicorn_config.py", "app:app"]
