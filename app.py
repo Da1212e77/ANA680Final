@@ -17,23 +17,18 @@ def home():
 def predict():
     data = request.json
     features = [
+        data['neighborhood'],
         data['lotArea'],
         data['yearBuilt'],
-        data['overallQual'],
-        data['totalBsmtSF'],
-        data['firstFlrSF'],
-        data['grLivArea'],
-        data['fullBath'],
-        data['bedroomAbvGr'],
-        data['kitchenQual'],
+        data['bldgType'],
+        data['centralAir'],
         data['garageCars'],
-        data['garageArea']
+        data['totRmsAbvGrd'],
+        data['fullBath'],
+        data['halfBath']
     ]
-    
-    # Convert categorical kitchen quality to numerical
-    kitchen_quality_mapping = {'TA': 1, 'Gd': 2, 'Ex': 3}
-    features[8] = kitchen_quality_mapping[features[8]]
-    
+
+    # Convert features into the appropriate format
     final_features = np.array([features])
     prediction = model.predict(final_features)
     
