@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>House Price Prediction</title>
+    <title>Ames City, Iowa Home Price Predictor</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
@@ -90,7 +90,7 @@
 <body>
     <div class="container">
         <header>
-            <h1>House Price Prediction</h1>
+            <h1>Ames City, Iowa Home Price Predictor</h1>
         </header>
         <main>
             <section>
@@ -98,20 +98,56 @@
                 <div class="input-group">
                     <label for="neighborhood">Neighborhood</label>
                     <select id="neighborhood">
-                        <!-- Options truncated for brevity -->
+                        <option value="Blmngtn">Bloomington Heights</option>
+                        <option value="Blueste">Bluestem</option>
+                        <option value="BrDale">Briardale</option>
+                        <option value="BrkSide">Brookside</option>
+                        <option value="ClearCr">Clear Creek</option>
+                        <option value="CollgCr">College Creek</option>
+                        <option value="Crawfor">Crawford</option>
+                        <option value="Edwards">Edwards</option>
+                        <option value="Gilbert">Gilbert</option>
+                        <option value="IDOTRR">Iowa DOT and Rail Road</option>
+                        <option value="MeadowV">Meadow Village</option>
+                        <option value="Mitchel">Mitchell</option>
+                        <option value="Names">North Ames</option>
+                        <option value="NoRidge">Northridge</option>
+                        <option value="NPkVill">Northpark Villa</option>
+                        <option value="NridgHt">Northridge Heights</option>
+                        <option value="NWAmes">Northwest Ames</option>
+                        <option value="OldTown">Old Town</option>
+                        <option value="SWISU">South & West of Iowa State University</option>
+                        <option value="Sawyer">Sawyer</option>
+                        <option value="SawyerW">Sawyer West</option>
+                        <option value="Somerst">Somerset</option>
+                        <option value="StoneBr">Stone Brook</option>
+                        <option value="Timber">Timberland</option>
+                        <option value="Veenker">Veenker</option>
                     </select>
                 </div>
                 <div class="input-group">
-                    <label for="lotArea">Lot Area (sq ft)</label>
+                    <label for="lotArea">Lot Area (sq ft) <small>(Min: 0, Max: 20000)</small></label>
                     <input type="number" id="lotArea" min="0" max="20000" step="100" value="0">
                 </div>
                 <div class="input-group">
-                    <label for="yearBuilt">Year Built</label>
+                    <label for="yearBuilt">Year Built <small>(Min: 1900, Max: 2021)</small></label>
                     <input type="number" id="yearBuilt" min="1900" max="2021" step="1" value="1900">
                 </div>
                 <div class="input-group">
-                    <label for="totRmsAbvGrd">Total Rooms</label>
+                    <label for="totRmsAbvGrd">Total Rooms Above Ground <small>(Min: 0, Max: 15)</small></label>
                     <input type="number" id="totRmsAbvGrd" min="0" max="15" step="1" value="0">
+                </div>
+                <div class="input-group">
+                    <label for="garageCars">Garage Capacity (Cars) <small>(Min: 0, Max: 4)</small></label>
+                    <input type="number" id="garageCars" min="0" max="4" step="1" value="0">
+                </div>
+                <div class="input-group">
+                    <label for="fullBath">Full Bathrooms <small>(Min: 0, Max: 3)</small></label>
+                    <input type="number" id="fullBath" min="0" max="3" step="1" value="0">
+                </div>
+                <div class="input-group">
+                    <label for="halfBath">Half Bathrooms <small>(Min: 0, Max: 2)</small></label>
+                    <input type="number" id="halfBath" min="0" max="2" step="1" value="0">
                 </div>
                 <button onclick="predictPrice()">Predict Price</button>
             </section>
@@ -127,9 +163,12 @@
         function predictPrice() {
             const data = {
                 neighborhood: document.getElementById('neighborhood').value,
-                yearBuilt: document.getElementById('yearBuilt').value,
                 lotArea: document.getElementById('lotArea').value,
-                totRmsAbvGrd: document.getElementById('totRmsAbvGrd').value
+                yearBuilt: document.getElementById('yearBuilt').value,
+                totRmsAbvGrd: document.getElementById('totRmsAbvGrd').value,
+                garageCars: document.getElementById('garageCars').value,
+                fullBath: document.getElementById('fullBath').value,
+                halfBath: document.getElementById('halfBath').value,
             };
 
             fetch('/predict', {
