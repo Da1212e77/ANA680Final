@@ -22,11 +22,14 @@ def predict():
 
     try:
         # Convert input data to DataFrame and ensure correct types
-        features = pd.DataFrame([data], columns=[
-            'Neighborhood', 'LotArea', 'YearBuilt', 'BldgType', 'CentralAir', 
+         features = pd.DataFrame([data], columns=[
+            'Neighborhood', 'YearBuilt', 'LotArea', 'BldgType', 'CentralAir', 
             'GarageCars', 'TotRmsAbvGrd', 'FullBath', 'HalfBath'
         ])
-        
+    
+        print("Data:", data)
+        print("Features before processing:", features)
+    
         # Convert numerical columns to correct type
         features['LotArea'] = features['LotArea'].astype(float)
         features['YearBuilt'] = features['YearBuilt'].astype(int)
@@ -37,6 +40,9 @@ def predict():
     
         # Preprocess features
         processed_features = preprocessor.transform(features)
+
+        print("Processed features:", processed_features)
+
 
         # Make prediction
         prediction = model.predict(processed_features)
