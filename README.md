@@ -1,5 +1,5 @@
 # Ames City Housing Price Predictor
-By: [Your Name]
+By: Darrell Amio
 
 ## Overview
 This repository contains a project for predicting housing prices in Ames City, Iowa using machine learning techniques. The project explores various deployment methods, including Heroku, Docker, and AWS SageMaker, highlighting different stages and challenges encountered in deploying a machine learning model across multiple platforms.
