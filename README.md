@@ -22,26 +22,21 @@ The real estate market in Ames City, Iowa, while not as volatile as major metrop
 - [Investopedia - Top U.S. Housing Market Indicators](https://www.investopedia.com/articles/personal-finance/033015/top-us-housing-market-indicators.asp)
 
 ## Projects
+
 1. **Local Deployment and Heroku**: A machine learning model deployed on Heroku for predicting housing prices in Ames City, Iowa.
-   - [[Heroku App](https://amescityhousingprediciton-7827cbd1b9d8.herokuapp.com/)]
-     
-2. ## Docker Deployment
-- This project can be easily deployed using Docker. Follow the instructions below to get the application up and running using Docker.
+   - [Heroku App](https://your-heroku-app-link)
+
+2. **Docker Deployment**
+
+This project can be easily deployed using Docker. Follow the instructions below to get the application up and running using Docker.
+
 ### Prerequisites
+
 - Docker installed on your local machine. You can download Docker from [here](https://www.docker.com/products/docker-desktop).
-- ### Pulling the Docker Image
-- To pull the Docker image from Docker Hub, use the following command:
+
+### Pulling the Docker Image
+
+To pull the Docker image from Docker Hub, use the following command:
+
 ```bash
 docker pull drlamio/house-price-prediction-app:latest
-
-3. **AWS Deployment**: Initial setup on AWS includes the use of S3 for storage, ECR for Docker image management, and a SageMaker instance for model development. Full deployment on AWS is ongoing and aims for a robust, scalable solution.
-
-## Repository Structure
-- `/Part1_LocalDeployment`: Files for local deployment and Heroku, including Docker configuration.
-- `/Part2_AWS_Deployment`: Contains documentation and screenshots illustrating the setup of AWS resources, with further deployment under development.
-
-## Usage
-Detailed instructions for running and deploying the models are provided in each subdirectory.
-
-## Additional Resources
-- **Ames Housing Price Predictor.pdf**: Contains a PowerPoint overview of the project, detailing each phase from development to deployment and outlining the challenges encountered.
