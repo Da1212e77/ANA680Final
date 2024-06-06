@@ -6,14 +6,14 @@ spec:
   replicas: 3
   selector:
     matchLabels:
-      app: model
+      app: house-price-prediction
   template:
     metadata:
       labels:
-        app: model
+        app: house-price-prediction
     spec:
       containers:
-      - name: model-container
+      - name: house-price-prediction
         image: drlamio/house-price-prediction-app:latest
         ports:
-        - containerPort: 80
+        - containerPort: 8080
